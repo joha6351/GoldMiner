@@ -8,4 +8,4 @@ _start_ Player position svinger frem og tilbage over jorden. Når spilleren tryk
 Når der ikke er flere mineraler ryddes billedet og score bliver fremvist. 
 
 ## Flowchart
-![Flowchart](https://www.lucidchart.com/documents/view/3a218368-5efa-4124-ba6d-52f261430e95/0_0)
+[Flowchart](https://joha6351.github.io/)
