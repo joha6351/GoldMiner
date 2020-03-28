@@ -19,3 +19,4 @@ Når der ikke er flere mineraler ryddes billedet og score bliver fremvist.
 - Score klasse
 - Fixe grab funktionen, så den ikke fryser
 - Optimér opsættelsesfasen (placering af Mineral objekter)
+- Lave endingscreen, sammenhøren med Score
