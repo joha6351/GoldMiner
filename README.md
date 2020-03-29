@@ -15,7 +15,6 @@ Når der ikke er flere mineraler ryddes billedet og score bliver fremvist.
 [Flowchart](https://joha6351.github.io/)
 
 #### Mangler
-- Klasse beskrivelse/flowchart
 - Score klasse
 - Fixe grab funktionen, så den ikke fryser
 - Optimér opsættelsesfasen (placering af Mineral objekter)
