@@ -17,6 +17,5 @@ Alternativt findes [her](https://joha6351.github.io/)
 
 #### Mangler
 - Score klasse
-- Fixe grab funktionen, så den ikke fryser
-- Optimér opsættelsesfasen (placering af Mineral objekter)
+- Fixe grab funktionen, så den ikke tager fat i alle.
 - Lave endingscreen, sammenhøren med Score
