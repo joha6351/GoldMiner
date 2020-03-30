@@ -1,7 +1,7 @@
 class Player {
   
   float x1, y1, x2, y2;
-  boolean isUp, isDown, reset;
+  boolean isUp, isDown, reset, restart;
   float theta;
   float thetaIncrease;
   float lineL;
@@ -48,12 +48,14 @@ class Player {
           stones[i].y = y2;
           thetaIncrease *= 0;
           lineL -= lineIncrease;
+          break;
         } 
         while (dist(a, b, x2, y2) < golds[j].radius) {
           golds[j].x = x2;
-          golds[j].y = y2;        
+          golds[j].y = y2;
           thetaIncrease *= 0;
           lineL -= lineIncrease;
+          break;
         }
       }
     }
@@ -68,6 +70,8 @@ class Player {
         return isDown = b;
       case 'r':
         return reset = b;
+      case 'q':
+        return restart = b;
       
       default:
         return b;
