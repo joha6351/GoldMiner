@@ -1,9 +1,9 @@
+
 Stone[] stones = new Stone[5];
 Gold[] golds = new Gold[5];
 Player player = new Player(300,50);
 
 PImage back;
-float score = 0;
 boolean setupphase = true;
 
 
@@ -16,11 +16,11 @@ void setup() {
   background(back);
   //Tegner mineraler
   for (int i = 0; i < stones.length; i++) {
-    stones[i] = new Stone(random(width),random(150, height));
+    stones[i] = new Stone(int(random(width)),int(random(150, height)), i);
   }
   
   for (int j = 0; j < golds.length; j++) {
-    golds[j] = new Gold(random(width),random(150, height));
+    golds[j] = new Gold(int(random(width)),int(random(150, height)), j);
   }
 
 }
@@ -31,7 +31,7 @@ void draw() {
     for (int i = 0; i < stones.length; i++) {
       for (int j = 0; j < golds.length; j++) {
       
-      //Tjekker om nogle overlapper, hvis der er tildel nye pladser til objekterne
+      //Tjekker om nogle overlapper, hvis der er tildel nye pladser til objekterne. Kører dobbelt ellers misser den nogle.
         if (overlap(stones[i].x, stones[i].y, golds[j].x, golds[j].y, stones[i].radius, golds[j].radius)) {
           regen();
         } else if (overlap(golds[j].x, golds[j].y, stones[i].x, stones[i].y, golds[j].radius, stones[i].radius)) {
@@ -52,15 +52,19 @@ void draw() {
   player.display();
   player.update();
   player.movement();
-    
   
   for (int i = 0; i < stones.length; i++) {
     for (int j = 0; j < golds.length; j++) {
         stones[i].display();
-        golds[j].display();
+        stones[i].mineralCollision(player.x2, player.y2);
         
-        player.grap(stones[i].x, stones[i].y);
-        player.grap(golds[j].x, golds[j].y);
+        golds[j].display();
+        golds[j].mineralCollision(player.x2, player.y2);
+        
+        player.grap(stones[i].mineralCollision(player.x2, player.y2));
+        
+        player.grap(golds[j].mineralCollision(player.x2, player.y2));
+
       }
     }
 }
@@ -68,11 +72,11 @@ void draw() {
 //Nye objekter
 void regen() {
   for (int i = 0; i < stones.length; i++) {
-    stones[i] = new Stone(random(width),random(150, height));
+    stones[i] = new Stone(int(random(width)),int(random(150, height)), i);
   }
   
   for (int j = 0; j < golds.length; j++) {
-    golds[j] = new Gold(random(width),random(150, height));
+    golds[j] = new Gold(int(random(width)),int(random(150, height)), j);
   }  
 }
 

@@ -1,6 +1,6 @@
 class Player {
   
-  float x1, y1, x2, y2;
+  int x1, y1, x2, y2;
   boolean isUp, isDown, reset, restart;
   float theta;
   float thetaIncrease;
@@ -8,8 +8,7 @@ class Player {
   int lineIncrease;
   float r;
   
-  
-  Player(float xpos, float ypos) {
+  Player(int xpos, int ypos) {
     x1 = xpos;
     y1 = ypos;
     theta = 0;
@@ -31,8 +30,8 @@ class Player {
     if (theta > PI || theta < 0) {
       thetaIncrease *= -1;
     }
-    x2 = x1+cos(theta)*lineL;
-    y2 = y1+sin(theta)*lineL;
+    x2 = int(x1+cos(theta)*lineL);
+    y2 = int(y1+sin(theta)*lineL);
     
     if (lineL < 0) {
       theta += thetaIncrease;
@@ -40,22 +39,50 @@ class Player {
     
   }
 
-  void grap(float a, float b) {
+  void grap(int mineralCollisionNumber) {
+    
     for (int i = 0; i < stones.length; i++) {
       for (int j = 0; j < golds.length; j++) {
-        while (dist(a, b, x2, y2) < stones[i].radius) {
-          stones[i].x = x2;
-          stones[i].y = y2;
-          thetaIncrease *= 0;
-          lineL -= lineIncrease;
-          break;
-        } 
-        while (dist(a, b, x2, y2) < golds[j].radius) {
-          golds[j].x = x2;
-          golds[j].y = y2;
-          thetaIncrease *= 0;
-          lineL -= lineIncrease;
-          break;
+        if (mineralCollisionNumber == stones[i].n) {
+          if (stones[mineralCollisionNumber].type == "stone") {
+            stones[mineralCollisionNumber].x = x2;
+            stones[mineralCollisionNumber].y = y2;
+            //thetaIncrease *= 0;
+            while (stones[mineralCollisionNumber].y >= 70) {
+              lineL -= lineIncrease;
+              x2 = int(x1+cos(theta)*lineL);
+              y2 = int(y1+sin(theta)*lineL);
+              //break;
+            }
+            if (stones[i].y < 70) {
+              print("Stone; " + stones[i].n + "got caught!");
+              stones[mineralCollisionNumber].x = 0;
+              stones[mineralCollisionNumber].y = 0;
+            }
+          }
+        } else {
+          continue;
+        }
+        
+        if (mineralCollisionNumber == golds[j].n) {
+          if (golds[mineralCollisionNumber].type == "gold") {
+            golds[mineralCollisionNumber].x = x2;
+            golds[mineralCollisionNumber].y = y2;
+            //thetaIncrease *= 0;
+            while (golds[mineralCollisionNumber].y >= 70) {
+              lineL -= lineIncrease;
+              x2 = int(x1+cos(theta)*lineL);
+              y2 = int(y1+sin(theta)*lineL);
+            }
+            if (golds[mineralCollisionNumber].y < 70) {
+              print("Gold; " + golds[mineralCollisionNumber].n + "got caught!");
+              golds[mineralCollisionNumber].x = 0;
+              golds[mineralCollisionNumber].y = 0;
+             
+            }
+          }
+        } else {
+          continue;
         }
       }
     }
