@@ -12,7 +12,7 @@ void settings() {
 }
 
 void setup() {
-  back = loadImage("soil.png");
+  back = loadImage("../sprites/soil.png");
   background(back);
   //Tegner mineraler
   for (int i = 0; i < stones.length; i++) {

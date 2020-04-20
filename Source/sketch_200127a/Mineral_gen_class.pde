@@ -7,8 +7,8 @@ class Mineral {
   float radius;
   boolean grap;
   PImage sprite;
-  PImage r_sprite = loadImage("rock.png");
-  PImage g_sprite = loadImage("gold.png");
+  PImage r_sprite = loadImage("../sprites/rock.png");
+  PImage g_sprite = loadImage("../sprites/gold.png");
 
   
  Mineral(float xpos, float ypos) {
