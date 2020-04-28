@@ -2,6 +2,7 @@
 Stone[] stones = new Stone[5];
 Gold[] golds = new Gold[5];
 Player player = new Player(300,50);
+Score score = new Score(10, 10);
 
 PImage back;
 boolean setupphase = true;
@@ -53,6 +54,8 @@ void draw() {
   player.update();
   player.movement();
   
+  score.display();
+  
   for (int i = 0; i < stones.length; i++) {
     for (int j = 0; j < golds.length; j++) {
         stones[i].display();
@@ -66,9 +69,13 @@ void draw() {
         player.grap(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]);
         
         player.grap(golds[j].mineralCollision(player.x2, player.y2)[0], golds[j].mineralCollision(player.x2, player.y2)[1]);
-
+        
+        //score.calcMoney(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]);
+        //score.calcMoney(golds[j].mineralCollision(player.x2, player.y2)[0], golds[j].mineralCollision(player.x2, player.y2)[1]);
       }
     }
+    
+    
 }
 
 //Nye objekter

@@ -10,14 +10,12 @@ class Mineral {
   int type;
   
  Mineral(int xpos, int ypos, int numberInArray) {
-  
    x = xpos;
    y = ypos;
    worth = 0;
    weight = 0;
    radius = 0;
    n = numberInArray;
-   
  }
  
  void display() {
@@ -26,14 +24,15 @@ class Mineral {
  }
  
  int[] mineralCollision(float a, float b) {
-   int[] mineralCollision = new int[2];
-   
+   int[] mineralCollision = new int[3];
         if (dist(a, b, x, y) < radius) {
           mineralCollision[0] = n;
           mineralCollision[1] = type;
+          mineralCollision[2] = 1;
         } else {
           mineralCollision[0] = 100;
           mineralCollision[1] = 100;
+          mineralCollision[2] = 0;
         }
         
         return mineralCollision;
@@ -48,7 +47,7 @@ class Gold extends Mineral {
     super(xpos, ypos, numberInArray);
     x = xpos;
     y = ypos;
-    worth = weight*1.2;
+    worth = 1.2;
     weight = radius*10;
     radius = random(10, 50);
     sprite = g_sprite;
@@ -64,7 +63,7 @@ class Stone extends Mineral {
     super(xpos, ypos, numberInArray);
     x = xpos;
     y = ypos;
-    worth = weight*0.1;
+    worth = 0.1;
     weight = radius*3;
     radius = random(10, 50);
     sprite = r_sprite;
