@@ -7,7 +7,7 @@ class Mineral {
   float radius;
   PImage sprite;
   int n;
-  String type;
+  int type;
   
  Mineral(int xpos, int ypos, int numberInArray) {
   
@@ -25,12 +25,18 @@ class Mineral {
    image(sprite, x, y, radius, radius);
  }
  
- int mineralCollision(float a, float b) {
+ int[] mineralCollision(float a, float b) {
+   int[] mineralCollision = new int[2];
+   
         if (dist(a, b, x, y) < radius) {
-          return n;
+          mineralCollision[0] = n;
+          mineralCollision[1] = type;
         } else {
-          return 100;
+          mineralCollision[0] = 100;
+          mineralCollision[1] = 100;
         }
+        
+        return mineralCollision;
     } 
 }
 
@@ -46,7 +52,7 @@ class Gold extends Mineral {
     weight = radius*10;
     radius = random(10, 50);
     sprite = g_sprite;
-    type = "gold";
+    type = 1;
   }
 }
 
@@ -62,6 +68,6 @@ class Stone extends Mineral {
     weight = radius*3;
     radius = random(10, 50);
     sprite = r_sprite;
-    type = "stone";
+    type = 2;
   }
 }

@@ -20,7 +20,7 @@ void setup() {
   }
   
   for (int j = 0; j < golds.length; j++) {
-    golds[j] = new Gold(int(random(width)),int(random(150, height)), j);
+    golds[j] = new Gold(int(random(width)),int(random(150, height)), j); //Hardcoded '5' for at lægge dem på enden af stones[i].
   }
 
 }
@@ -56,14 +56,16 @@ void draw() {
   for (int i = 0; i < stones.length; i++) {
     for (int j = 0; j < golds.length; j++) {
         stones[i].display();
-        stones[i].mineralCollision(player.x2, player.y2);
+        //stones[i].mineralCollision(player.x2, player.y2);
+        //println(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]);
         
         golds[j].display();
-        golds[j].mineralCollision(player.x2, player.y2);
+        //golds[j].mineralCollision(player.x2, player.y2);
+        //println(golds[j].mineralCollision(player.x2, player.y2)[0], golds[j].mineralCollision(player.x2, player.y2)[1]);
         
-        player.grap(stones[i].mineralCollision(player.x2, player.y2));
+        player.grap(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]);
         
-        player.grap(golds[j].mineralCollision(player.x2, player.y2));
+        player.grap(golds[j].mineralCollision(player.x2, player.y2)[0], golds[j].mineralCollision(player.x2, player.y2)[1]);
 
       }
     }
