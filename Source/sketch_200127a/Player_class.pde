@@ -87,6 +87,8 @@ class Player {
           golds[mineralCollisionNumber].x = 0;
           golds[mineralCollisionNumber].y = 0;
           
+          score.money = score.money + (golds[mineralCollisionNumber].worth*golds[mineralCollisionNumber].weight);
+          
           //Reset af player
           x1 = 300;
           y1 = 50;
