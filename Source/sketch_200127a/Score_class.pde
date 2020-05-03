@@ -2,11 +2,12 @@ class Score {
   
   float money;
   int x,y;
+  float moneyAdd;
   
   Score(int xpos, int ypos) {
     x = xpos;
     y = ypos;
-    money = 0;
+    money = 0.0;
   }
   
   void display() {
@@ -17,12 +18,16 @@ class Score {
   }
 
   float calcMoney(int mineralCollisionNumber, int mineralType) {
-    if (mineralType == 1 && stones[mineralCollisionNumber].y < 70) {
-      money = money + (stones[mineralCollisionNumber].worth * stones[mineralCollisionNumber].weight);
-    } else if (mineralType == 2 && golds[mineralCollisionNumber].y < 70) {
-      money = money + (golds[mineralCollisionNumber].worth * golds[mineralCollisionNumber].weight);  
+    if (mineralType == 1) {
+      moneyAdd = (stones[mineralCollisionNumber].worth * stones[mineralCollisionNumber].weight);
+    } else if (mineralType == 2) {
+      moneyAdd = (golds[mineralCollisionNumber].worth * golds[mineralCollisionNumber].weight);  
     }
-    return money;
+    return moneyAdd;
+  }
+
+  void addMoney (float addedMoney) {
+    money = money + addedMoney;
   }
   
 
