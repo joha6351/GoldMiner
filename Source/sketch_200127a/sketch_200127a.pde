@@ -21,7 +21,7 @@ void setup() {
   }
   
   for (int j = 0; j < golds.length; j++) {
-    golds[j] = new Gold(int(random(width)),int(random(150, height)), j); //Hardcoded '5' for at lægge dem på enden af stones[i].
+    golds[j] = new Gold(int(random(width)),int(random(150, height)), j);
   }
 
 }
@@ -32,7 +32,7 @@ void draw() {
     for (int i = 0; i < stones.length; i++) {
       for (int j = 0; j < golds.length; j++) {
       
-      //Tjekker om nogle overlapper, hvis der er tildel nye pladser til objekterne. Kører dobbelt ellers misser den nogle.
+      //Tjekker om nogle overlapper, hvis der er tildel nye pladser til objekterne.
         if (overlap(stones[i].x, stones[i].y, golds[j].x, golds[j].y, stones[i].radius, golds[j].radius)) {
           regen();
         } else if (overlap(golds[j].x, golds[j].y, stones[i].x, stones[i].y, golds[j].radius, stones[i].radius)) {
