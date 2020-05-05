@@ -58,13 +58,7 @@ class Player {
             score.addMoney(score.calcMoney(mineralCollisionNumber, mineralType));
             
             //Reset af player
-            x1 = 300;
-            y1 = 50;
-            theta = 0;
-            thetaIncrease = 0.035;
-            lineL = 25;
-            lineIncrease = 4;
-            r = 10;
+            pReset();
           } else {
             continue;
           }
@@ -89,14 +83,7 @@ class Player {
           
           score.addMoney(score.calcMoney(mineralCollisionNumber, mineralType));
           
-          //Reset af player
-          x1 = 300;
-          y1 = 50;
-          theta = 0;
-          thetaIncrease = 0.035;
-          lineL = 25;
-          lineIncrease = 4;
-          r = 10;
+          pReset();
         } else {
           continue;
         }
@@ -128,13 +115,17 @@ class Player {
        lineL += lineIncrease;
      }
      if (reset || dist(x2, y2, x1, y1) < 20) {
-       x1 = 300;
-       y1 = 50;
-       theta = 0;
-       thetaIncrease = 0.035;
-       lineL = 25;
-       lineIncrease = 4;
-       r = 10;
+       pReset();
      }
+  }
+
+  void pReset() {
+    x1 = 300;
+    y1 = 50;
+    theta = 0;
+    thetaIncrease = 0.035;
+    lineL = 25;
+    lineIncrease = 4;
+    r = 10;
   }
 }
