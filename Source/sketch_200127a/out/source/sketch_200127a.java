@@ -37,7 +37,7 @@ public void setup() {
   }
   
   for (int j = 0; j < golds.length; j++) {
-    golds[j] = new Gold(PApplet.parseInt(random(width)),PApplet.parseInt(random(150, height)), j); //Hardcoded '5' for at lægge dem på enden af stones[i].
+    golds[j] = new Gold(PApplet.parseInt(random(width)),PApplet.parseInt(random(150, height)), j);
   }
 
 }
@@ -48,7 +48,7 @@ public void draw() {
     for (int i = 0; i < stones.length; i++) {
       for (int j = 0; j < golds.length; j++) {
       
-      //Tjekker om nogle overlapper, hvis der er tildel nye pladser til objekterne. Kører dobbelt ellers misser den nogle.
+      //Tjekker om nogle overlapper, hvis der er tildel nye pladser til objekterne.
         if (overlap(stones[i].x, stones[i].y, golds[j].x, golds[j].y, stones[i].radius, golds[j].radius)) {
           regen();
         } else if (overlap(golds[j].x, golds[j].y, stones[i].x, stones[i].y, golds[j].radius, stones[i].radius)) {
@@ -83,11 +83,13 @@ public void draw() {
         //println(golds[j].mineralCollision(player.x2, player.y2)[0], golds[j].mineralCollision(player.x2, player.y2)[1]);
         
         player.grap(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]);
-        score.addMoney(score.calcMoney(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]));
+        //score.addMoney(score.calcMoney(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]));
         
         player.grap(golds[j].mineralCollision(player.x2, player.y2)[0], golds[j].mineralCollision(player.x2, player.y2)[1]);
-        score.addMoney(score.calcMoney(golds[j].mineralCollision(player.x2, player.y2)[0],golds[j].mineralCollision(player.x2, player.y2)[1]));
+        //score.addMoney(score.calcMoney(golds[j].mineralCollision(player.x2, player.y2)[0],golds[j].mineralCollision(player.x2, player.y2)[1]));
         
+        //score.calcMoney(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]);
+        //score.calcMoney(golds[j].mineralCollision(player.x2, player.y2)[0], golds[j].mineralCollision(player.x2, player.y2)[1]);
         
       }
     }
@@ -250,16 +252,10 @@ class Player {
             stones[mineralCollisionNumber].x = 0;
             stones[mineralCollisionNumber].y = 0;
             
-            score.addMoney(score.calcMoney(mineralCollisionNumber, mineralType));
+            score.money += score.moneyAdd;
             
             //Reset af player
-            x1 = 300;
-            y1 = 50;
-            theta = 0;
-            thetaIncrease = 0.035f;
-            lineL = 25;
-            lineIncrease = 4;
-            r = 10;
+            pReset();
           } else {
             continue;
           }
@@ -282,16 +278,9 @@ class Player {
           golds[mineralCollisionNumber].x = 0;
           golds[mineralCollisionNumber].y = 0;
           
-          score.addMoney(score.calcMoney(mineralCollisionNumber, mineralType));
+          score.money += score.moneyAdd;
           
-          //Reset af player
-          x1 = 300;
-          y1 = 50;
-          theta = 0;
-          thetaIncrease = 0.035f;
-          lineL = 25;
-          lineIncrease = 4;
-          r = 10;
+          pReset();
         } else {
           continue;
         }
@@ -323,14 +312,18 @@ class Player {
        lineL += lineIncrease;
      }
      if (reset || dist(x2, y2, x1, y1) < 20) {
-       x1 = 300;
-       y1 = 50;
-       theta = 0;
-       thetaIncrease = 0.035f;
-       lineL = 25;
-       lineIncrease = 4;
-       r = 10;
+       pReset();
      }
+  }
+
+  public void pReset() {
+    x1 = 300;
+    y1 = 50;
+    theta = 0;
+    thetaIncrease = 0.035f;
+    lineL = 25;
+    lineIncrease = 4;
+    r = 10;
   }
 }
 class Score {
@@ -352,17 +345,12 @@ class Score {
     text("Money: " + money, x, y);
   }
 
-  public float calcMoney(int mineralCollisionNumber, int mineralType) {
+  public void calcMoney(int mineralCollisionNumber, int mineralType) {
     if (mineralType == 1) {
-      moneyAdd = (stones[mineralCollisionNumber].worth * stones[mineralCollisionNumber].weight);
+      moneyAdd = stones[mineralCollisionNumber].worth*stones[mineralCollisionNumber].weight;
     } else if (mineralType == 2) {
-      moneyAdd = (golds[mineralCollisionNumber].worth * golds[mineralCollisionNumber].weight);  
+      moneyAdd = golds[mineralCollisionNumber].worth*golds[mineralCollisionNumber].weight;  
     }
-    return moneyAdd;
-  }
-
-  public void addMoney (float addedMoney) {
-    money = money + addedMoney;
   }
   
 

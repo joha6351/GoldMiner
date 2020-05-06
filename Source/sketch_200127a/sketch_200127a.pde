@@ -67,11 +67,13 @@ void draw() {
         //println(golds[j].mineralCollision(player.x2, player.y2)[0], golds[j].mineralCollision(player.x2, player.y2)[1]);
         
         player.grap(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]);
-        score.addMoney(score.calcMoney(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]));
+        //score.addMoney(score.calcMoney(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]));
         
         player.grap(golds[j].mineralCollision(player.x2, player.y2)[0], golds[j].mineralCollision(player.x2, player.y2)[1]);
-        score.addMoney(score.calcMoney(golds[j].mineralCollision(player.x2, player.y2)[0],golds[j].mineralCollision(player.x2, player.y2)[1]));
+        //score.addMoney(score.calcMoney(golds[j].mineralCollision(player.x2, player.y2)[0],golds[j].mineralCollision(player.x2, player.y2)[1]));
         
+        //score.calcMoney(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]);
+        //score.calcMoney(golds[j].mineralCollision(player.x2, player.y2)[0], golds[j].mineralCollision(player.x2, player.y2)[1]);
         
       }
     }

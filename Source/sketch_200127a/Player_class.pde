@@ -55,7 +55,7 @@ class Player {
             stones[mineralCollisionNumber].x = 0;
             stones[mineralCollisionNumber].y = 0;
             
-            score.addMoney(score.calcMoney(mineralCollisionNumber, mineralType));
+            score.money += score.moneyAdd;
             
             //Reset af player
             pReset();
@@ -81,7 +81,7 @@ class Player {
           golds[mineralCollisionNumber].x = 0;
           golds[mineralCollisionNumber].y = 0;
           
-          score.addMoney(score.calcMoney(mineralCollisionNumber, mineralType));
+          score.money += score.moneyAdd;
           
           pReset();
         } else {

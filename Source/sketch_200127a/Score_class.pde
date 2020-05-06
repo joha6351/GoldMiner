@@ -17,17 +17,12 @@ class Score {
     text("Money: " + money, x, y);
   }
 
-  float calcMoney(int mineralCollisionNumber, int mineralType) {
+  void calcMoney(int mineralCollisionNumber, int mineralType) {
     if (mineralType == 1) {
-      moneyAdd = (stones[mineralCollisionNumber].worth * stones[mineralCollisionNumber].weight);
+      moneyAdd = stones[mineralCollisionNumber].worth*stones[mineralCollisionNumber].weight;
     } else if (mineralType == 2) {
-      moneyAdd = (golds[mineralCollisionNumber].worth * golds[mineralCollisionNumber].weight);  
+      moneyAdd = golds[mineralCollisionNumber].worth*golds[mineralCollisionNumber].weight;  
     }
-    return moneyAdd;
-  }
-
-  void addMoney (float addedMoney) {
-    money = money + addedMoney;
   }
   
 
