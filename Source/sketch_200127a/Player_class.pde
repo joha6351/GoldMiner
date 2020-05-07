@@ -39,6 +39,7 @@ class Player {
   }
 
   void grap(int mineralCollisionNumber, int mineralType) {
+    score.calcMoney(mineralCollisionNumber, mineralType);
     for (int i = 0; i < stones.length; i++) {
       if (mineralCollisionNumber == stones[i].n && mineralType == stones[i].type) {
           stones[mineralCollisionNumber].x = x2;
@@ -54,11 +55,13 @@ class Player {
             println("Stone; " + stones[mineralCollisionNumber].n + " got caught!");
             stones[mineralCollisionNumber].x = 0;
             stones[mineralCollisionNumber].y = 0;
-            
+
             score.money += score.moneyAdd;
             
             //Reset af player
             pReset();
+            
+            break;
           } else {
             continue;
           }

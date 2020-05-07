@@ -75,21 +75,12 @@ public void draw() {
   for (int i = 0; i < stones.length; i++) {
     for (int j = 0; j < golds.length; j++) {
         stones[i].display();
-        //stones[i].mineralCollision(player.x2, player.y2);
-        //println(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]);
         
         golds[j].display();
-        //golds[j].mineralCollision(player.x2, player.y2);
-        //println(golds[j].mineralCollision(player.x2, player.y2)[0], golds[j].mineralCollision(player.x2, player.y2)[1]);
         
         player.grap(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]);
-        //score.addMoney(score.calcMoney(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]));
         
         player.grap(golds[j].mineralCollision(player.x2, player.y2)[0], golds[j].mineralCollision(player.x2, player.y2)[1]);
-        //score.addMoney(score.calcMoney(golds[j].mineralCollision(player.x2, player.y2)[0],golds[j].mineralCollision(player.x2, player.y2)[1]));
-        
-        //score.calcMoney(stones[i].mineralCollision(player.x2, player.y2)[0],stones[i].mineralCollision(player.x2, player.y2)[1]);
-        //score.calcMoney(golds[j].mineralCollision(player.x2, player.y2)[0], golds[j].mineralCollision(player.x2, player.y2)[1]);
         
       }
     }
@@ -123,13 +114,17 @@ public void keyPressed() {
 public void keyReleased() {
   player.setMove(key, false);
 }
+
+public void mousePressed() {
+  score.money += 10;
+}
 class Mineral {
   
-  float worth;
-  float weight;
+  int worth;
+  int weight;
   int x;
   int y;
-  float radius;
+  int radius;
   PImage sprite;
   int n;
   int type;
@@ -150,18 +145,21 @@ class Mineral {
  
  public int[] mineralCollision(float a, float b) {
    int[] mineralCollision = new int[3];
-        if (dist(a, b, x, y) < radius) {
-          mineralCollision[0] = n;
-          mineralCollision[1] = type;
-          mineralCollision[2] = 1;
-        } else {
-          mineralCollision[0] = 100;
-          mineralCollision[1] = 100;
-          mineralCollision[2] = 0;
-        }
-        
-        return mineralCollision;
-    } 
+   if (dist(a, b, x, y) < radius) {
+     mineralCollision[0] = n;
+     mineralCollision[1] = type;
+     mineralCollision[2] = 1;
+    } else {
+      mineralCollision[0] = 100;
+      mineralCollision[1] = 100;
+      mineralCollision[2] = 0;
+    }
+    return mineralCollision;
+  }
+
+  
+
+    
 }
 
 class Gold extends Mineral {
@@ -172,9 +170,9 @@ class Gold extends Mineral {
     super(xpos, ypos, numberInArray);
     x = xpos;
     y = ypos;
-    worth = 1.2f;
+    worth = 4;
+    radius = PApplet.parseInt(random(10, 50));
     weight = radius*10;
-    radius = random(10, 50);
     sprite = g_sprite;
     type = 1;
   }
@@ -188,12 +186,14 @@ class Stone extends Mineral {
     super(xpos, ypos, numberInArray);
     x = xpos;
     y = ypos;
-    worth = 0.1f;
+    worth = 1;
+    radius = PApplet.parseInt(random(10, 50));
     weight = radius*3;
-    radius = random(10, 50);
     sprite = r_sprite;
     type = 2;
   }
+
+  
 }
 class Player {
   
@@ -251,11 +251,20 @@ class Player {
             println("Stone; " + stones[mineralCollisionNumber].n + " got caught!");
             stones[mineralCollisionNumber].x = 0;
             stones[mineralCollisionNumber].y = 0;
+
             
+
+            println(stones[mineralCollisionNumber].weight);
+            println(stones[mineralCollisionNumber].worth);
+            
+            score.calcMoney(mineralCollisionNumber, mineralType);
+
             score.money += score.moneyAdd;
             
             //Reset af player
             pReset();
+            
+            break;
           } else {
             continue;
           }
@@ -328,14 +337,14 @@ class Player {
 }
 class Score {
   
-  float money;
+  int money;
   int x,y;
-  float moneyAdd;
+  int moneyAdd;
   
   Score(int xpos, int ypos) {
     x = xpos;
     y = ypos;
-    money = 0.0f;
+    money = 0;
   }
   
   public void display() {
@@ -345,12 +354,13 @@ class Score {
     text("Money: " + money, x, y);
   }
 
-  public void calcMoney(int mineralCollisionNumber, int mineralType) {
+  public int calcMoney(int mineralCollisionNumber, int mineralType) {
     if (mineralType == 1) {
-      moneyAdd = stones[mineralCollisionNumber].worth*stones[mineralCollisionNumber].weight;
+      moneyAdd = PApplet.parseInt(stones[mineralCollisionNumber].worth*stones[mineralCollisionNumber].weight);
     } else if (mineralType == 2) {
-      moneyAdd = golds[mineralCollisionNumber].worth*golds[mineralCollisionNumber].weight;  
+      moneyAdd = PApplet.parseInt(golds[mineralCollisionNumber].worth*golds[mineralCollisionNumber].weight);  
     }
+    return moneyAdd;
   }
   
 

@@ -1,10 +1,10 @@
 class Mineral {
   
-  float worth;
-  float weight;
+  int worth;
+  int weight;
   int x;
   int y;
-  float radius;
+  int radius;
   PImage sprite;
   int n;
   int type;
@@ -25,18 +25,21 @@ class Mineral {
  
  int[] mineralCollision(float a, float b) {
    int[] mineralCollision = new int[3];
-        if (dist(a, b, x, y) < radius) {
-          mineralCollision[0] = n;
-          mineralCollision[1] = type;
-          mineralCollision[2] = 1;
-        } else {
-          mineralCollision[0] = 100;
-          mineralCollision[1] = 100;
-          mineralCollision[2] = 0;
-        }
-        
-        return mineralCollision;
-    } 
+   if (dist(a, b, x, y) < radius) {
+     mineralCollision[0] = n;
+     mineralCollision[1] = type;
+     mineralCollision[2] = 1;
+    } else {
+      mineralCollision[0] = 100;
+      mineralCollision[1] = 100;
+      mineralCollision[2] = 0;
+    }
+    return mineralCollision;
+  }
+
+  
+
+    
 }
 
 class Gold extends Mineral {
@@ -47,9 +50,9 @@ class Gold extends Mineral {
     super(xpos, ypos, numberInArray);
     x = xpos;
     y = ypos;
-    worth = 1.2;
+    worth = 4;
+    radius = int(random(10, 50));
     weight = radius*10;
-    radius = random(10, 50);
     sprite = g_sprite;
     type = 1;
   }
@@ -63,10 +66,12 @@ class Stone extends Mineral {
     super(xpos, ypos, numberInArray);
     x = xpos;
     y = ypos;
-    worth = 0.1;
+    worth = 1;
+    radius = int(random(10, 50));
     weight = radius*3;
-    radius = random(10, 50);
     sprite = r_sprite;
     type = 2;
   }
+
+  
 }
