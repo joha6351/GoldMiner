@@ -8,6 +8,7 @@ class Player {
   int lineIncrease;
   float r;
   
+  //Constructor sets start values for position and rendering properties.
   Player(int xpos, int ypos) {
     x1 = xpos;
     y1 = ypos;
@@ -18,6 +19,7 @@ class Player {
     r = 10;
   }
   
+  //Part 1 of rendering; method for displaying the object.
   void display() {
     line(x1, y1, x2, y2);
     ellipseMode(CENTER);
@@ -25,6 +27,7 @@ class Player {
     circle(x2, y2, r);
   }
   
+  //Part 2 of  rendering; method for updating the object, when user doesn't interact with program.
   void update() {
     theta += thetaIncrease;
     if (theta > PI || theta < 0) {
@@ -38,27 +41,32 @@ class Player {
     }
   }
 
+  //Method for determining collision between Player and a mineral object.
   void grap(int mineralCollisionNumber, int mineralType) {
-    score.calcMoney(mineralCollisionNumber, mineralType);
-    for (int i = 0; i < stones.length; i++) {
-      if (mineralCollisionNumber == stones[i].n && mineralType == stones[i].type) {
-          stones[mineralCollisionNumber].x = x2;
-          stones[mineralCollisionNumber].y = y2;
-          //thetaIncrease *= 0;
-          while (stones[mineralCollisionNumber].y >= 70) {
+    score.calcMoney(mineralCollisionNumber, mineralType); //Invoke calcMoney() for the intersecting object to find amount of mnoey to be added.
+
+    //Iterate over all Stone objects;
+    for (int i = 0; i < stones.size(); i++) {
+      Stone sto = stones.get(i);
+      if (mineralCollisionNumber == sto.n && mineralType == sto.type) {
+          //Set the collided object to Player position;
+          sto.x = x2;
+          sto.y = y2;
+          
+          while (sto.y >= 70) { //Pull Player and collided object back to PLayer startposition;
             lineL -= lineIncrease;
             x2 = int(x1+cos(theta)*lineL);
             y2 = int(y1+sin(theta)*lineL);
             break;
           }
-          if (stones[mineralCollisionNumber].y < 70) {
-            println("Stone; " + stones[mineralCollisionNumber].n + " got caught!");
-            stones[mineralCollisionNumber].x = 0;
-            stones[mineralCollisionNumber].y = 0;
+          if (sto.y < 70) { //When Stone object is pulled adequately back; inform user of which Stone has been caught, change hasCaught variable to 'true' to remove from the ArrayList in main program, add the money, reset Player to start values.
+            println("Stone; " + sto.n + " got caught!");
+
+            sto.hasCaught();
 
             score.money += score.moneyAdd;
             
-            //Reset af player
+            //Reset of Player
             pReset();
             
             break;
@@ -67,33 +75,38 @@ class Player {
           }
       }
     }
-    
-    for (int j = 0; j < golds.length; j++) {
-      if (mineralCollisionNumber == golds[j].n && mineralType == golds[j].type) {
-        golds[mineralCollisionNumber].x = x2;
-        golds[mineralCollisionNumber].y = y2;
-        //thetaIncrease *= 0;
-        while (golds[mineralCollisionNumber].y >= 70) {
+
+    //Iterate over all Gold objects;
+    for (int i = 0; i < golds.size(); i++) {
+      Gold gol = golds.get(i);
+      if (mineralCollisionNumber == gol.n && mineralType == gol.type) {
+        //Set the collided object to Player position;
+        gol.x = x2;
+        gol.y = y2;
+        
+        while (gol.y >= 70) { //Pull Player and collided object back to PLayer startposition;
           lineL -= lineIncrease;
           x2 = int(x1+cos(theta)*lineL);
           y2 = int(y1+sin(theta)*lineL);
           break;
         }
-        if (golds[mineralCollisionNumber].y < 70) {
-          println("Gold; " + golds[mineralCollisionNumber].n + " got caught!");
-          golds[mineralCollisionNumber].x = 0;
-          golds[mineralCollisionNumber].y = 0;
+        if (gol.y < 70) { //When Gold object is pulled adequately back; inform user of which Gold has been caught, change hasCaught variable to 'true' to remove from the ArrayList in main program, add the money, reset Player to start values.
+          println("Gold; " + gol.n + " got caught!");
+          gol.hasCaught();
           
           score.money += score.moneyAdd;
           
+          //Reset of Player
           pReset();
+          break;
         } else {
-          continue;
+        continue;
         }
       }
     }
   }
 
+  //Method for translating keyboard input to boolean values to determine what the user wants to do.
   boolean setMove(char k, boolean b) {
     switch(k) {
       case 'w':
@@ -110,6 +123,7 @@ class Player {
     }
   }
 
+  //Method for changing the PLayer object based on setmove() output; based on keyboard input from the user.
   void movement() {
     if (isUp) {
        lineL -= lineIncrease;
@@ -117,11 +131,13 @@ class Player {
        thetaIncrease *= 0;
        lineL += lineIncrease;
      }
+     //If user wants to reset Player or Player returns to startposition then set the Player to start values.
      if (reset || dist(x2, y2, x1, y1) < 20) {
        pReset();
      }
   }
 
+  //Method for resetting the Player to start values.
   void pReset() {
     x1 = 300;
     y1 = 50;
