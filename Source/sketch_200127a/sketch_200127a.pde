@@ -1,6 +1,6 @@
-//Declare an ArrayList with 5 Stone objects and 5 Gold objects.
-ArrayList<Stone> stones = new ArrayList<Stone>(5);
-ArrayList<Gold> golds = new ArrayList<Gold>(5);
+//Declare an ArrayList with Stone and Gold objects.
+ArrayList<Stone> stones = new ArrayList<Stone>();
+ArrayList<Gold> golds = new ArrayList<Gold>();
 
 //Declare a Player object.
 Player player = new Player(300,50);
@@ -11,7 +11,7 @@ Score score = new Score(10, 10);
 PImage bgimage;
 boolean setupphase = true;
 
-//Sets program screensize to 600x600 px.
+//Sets program windowsize to 600x600 px.
 void settings() {
   size(600,600);
 }
@@ -20,14 +20,13 @@ void settings() {
 void setup() {
   bgimage = loadImage("../sprites/soil.jpg");
   background(bgimage);
-  //background(#bd7443); //Dummy test
 
   //Adds minerals to ArrayList
-  stones.add(new Stone(int(random(width)), int(random(150, height)), 0));
-  stones.add(new Stone(int(random(width)), int(random(150, height)), 1));
-  stones.add(new Stone(int(random(width)), int(random(150, height)), 2));
-  stones.add(new Stone(int(random(width)), int(random(150, height)), 3));
-  stones.add(new Stone(int(random(width)), int(random(150, height)), 4));
+  stones.add(new Stone(int(random(width)), int(random(150, 350)), 0));
+  stones.add(new Stone(int(random(width)), int(random(150, 350)), 1));
+  stones.add(new Stone(int(random(width)), int(random(150, 350)), 2));
+  stones.add(new Stone(int(random(width)), int(random(150, 350)), 3));
+  stones.add(new Stone(int(random(width)), int(random(150, 350)), 4));
   
   golds.add(new Gold(int(random(width)), int(random(300, height)), 0));
   golds.add(new Gold(int(random(width)), int(random(300, height)), 1));
@@ -114,22 +113,18 @@ void draw() {
     textSize(26);
     text("Press 'q' to restart", width/2, height/2+36);
   }
-    
 }
 
 //Function for replacing Stone and Gold obejcts. Using ArrayList.set instead of ArrayList.add to replace existing ArrayList values.
 void regen() {
-  stones.set(0, new Stone(int(random(width)), int(random(150, height)), 0));
-  stones.set(1, new Stone(int(random(width)), int(random(150, height)), 1));
-  stones.set(2, new Stone(int(random(width)), int(random(150, height)), 2));
-  stones.set(3, new Stone(int(random(width)), int(random(150, height)), 3));
-  stones.set(4, new Stone(int(random(width)), int(random(150, height)), 4));
-
-  golds.set(0, new Gold(int(random(width)), int(random(150, height)), 0));
-  golds.set(1, new Gold(int(random(width)), int(random(150, height)), 1));
-  golds.set(2, new Gold(int(random(width)), int(random(150, height)), 2));
-  golds.set(3, new Gold(int(random(width)), int(random(150, height)), 3));
-  golds.set(4, new Gold(int(random(width)), int(random(150, height)), 4));
+  for (int i = 0; i < stones.size(); i++) {
+    Stone sto = stones.get(i);
+    stones.set(i, new Stone(int(random(width)), int(random(150, height)), i));
+  }
+  for (int j = 0; j < golds.size(); j++) {
+    Gold gol = golds.get(j);
+    golds.set(j, new Gold(int(random(width)), int(random(150, height)), j));
+  }
 }
 
 //Function for checking if intersectiong between 2 objects.

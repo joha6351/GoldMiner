@@ -43,7 +43,7 @@ class Player {
 
   //Method for determining collision between Player and a mineral object.
   void grap(int mineralCollisionNumber, int mineralType) {
-    score.calcMoney(mineralCollisionNumber, mineralType); //Invoke calcMoney() for the intersecting object to find amount of mnoey to be added.
+    score.calcMoney(mineralCollisionNumber, mineralType); //Invoke calcMoney() for the intersecting object to find amount of money to be added.
 
     //Iterate over all Stone objects;
     for (int i = 0; i < stones.size(); i++) {
@@ -59,7 +59,7 @@ class Player {
           y2 = int(y1+sin(theta)*lineL);
           break;
         }
-        if (sto.y < 70) { //When Stone object is pulled adequately back; inform user of which Stone has been caught, change hasCaught variable to 'true' to remove from the ArrayList in main program, add the money, reset Player to start values.
+        if (sto.y < 70) { //When Stone object is pulled adequately back; inform user of which Stone has been caught, change caught variable to 'true' to remove from the ArrayList in main program, add the money, reset Player to start values.
           println("Stone; " + sto.n + " got caught!");
           sto.hasCaught();
           score.money += score.moneyAdd;
