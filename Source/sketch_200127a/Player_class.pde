@@ -23,7 +23,7 @@ class Player {
   void display() {
     line(x1, y1, x2, y2);
     ellipseMode(CENTER);
-    fill(0);
+    fill(#b6b6b6);
     circle(x2, y2, r);
   }
   
@@ -49,30 +49,26 @@ class Player {
     for (int i = 0; i < stones.size(); i++) {
       Stone sto = stones.get(i);
       if (mineralCollisionNumber == sto.n && mineralType == sto.type) {
-          //Set the collided object to Player position;
-          sto.x = x2;
-          sto.y = y2;
+        //Set the collided object to Player position;
+        sto.x = x2;
+        sto.y = y2;
           
-          while (sto.y >= 70) { //Pull Player and collided object back to PLayer startposition;
-            lineL -= lineIncrease;
-            x2 = int(x1+cos(theta)*lineL);
-            y2 = int(y1+sin(theta)*lineL);
-            break;
-          }
-          if (sto.y < 70) { //When Stone object is pulled adequately back; inform user of which Stone has been caught, change hasCaught variable to 'true' to remove from the ArrayList in main program, add the money, reset Player to start values.
-            println("Stone; " + sto.n + " got caught!");
-
-            sto.hasCaught();
-
-            score.money += score.moneyAdd;
-            
-            //Reset of Player
-            pReset();
-            
-            break;
-          } else {
-            continue;
-          }
+        while (sto.y >= 70) { //Pull Player and collided object back to PLayer startposition;
+          lineL -= lineIncrease;
+          x2 = int(x1+cos(theta)*lineL);
+          y2 = int(y1+sin(theta)*lineL);
+          break;
+        }
+        if (sto.y < 70) { //When Stone object is pulled adequately back; inform user of which Stone has been caught, change hasCaught variable to 'true' to remove from the ArrayList in main program, add the money, reset Player to start values.
+          println("Stone; " + sto.n + " got caught!");
+          sto.hasCaught();
+          score.money += score.moneyAdd;
+          //Reset of Player
+          pReset();
+          break;
+        } else {
+          continue;
+        }
       }
     }
 
@@ -93,14 +89,12 @@ class Player {
         if (gol.y < 70) { //When Gold object is pulled adequately back; inform user of which Gold has been caught, change hasCaught variable to 'true' to remove from the ArrayList in main program, add the money, reset Player to start values.
           println("Gold; " + gol.n + " got caught!");
           gol.hasCaught();
-          
           score.money += score.moneyAdd;
-          
           //Reset of Player
           pReset();
           break;
         } else {
-        continue;
+          continue;
         }
       }
     }

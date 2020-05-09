@@ -2,15 +2,13 @@
 ArrayList<Stone> stones = new ArrayList<Stone>(5);
 ArrayList<Gold> golds = new ArrayList<Gold>(5);
 
-
-
 //Declare a Player object.
 Player player = new Player(300,50);
 
 //Declare a Score object.
 Score score = new Score(10, 10);
 
-PImage back;
+PImage bgimage;
 boolean setupphase = true;
 
 //Sets program screensize to 600x600 px.
@@ -20,7 +18,7 @@ void settings() {
 
 //Runs setup on the program. Loading and setting background image. Adds the specific Stone and Gold objects to the ArrayList.
 void setup() {
-  bgimage = loadImage("../sprites/soil.png");
+  bgimage = loadImage("../sprites/soil.jpg");
   background(bgimage);
   //background(#bd7443); //Dummy test
 
@@ -31,11 +29,11 @@ void setup() {
   stones.add(new Stone(int(random(width)), int(random(150, height)), 3));
   stones.add(new Stone(int(random(width)), int(random(150, height)), 4));
   
-  golds.add(new Gold(int(random(width)), int(random(150, height)), 0));
-  golds.add(new Gold(int(random(width)), int(random(150, height)), 1));
-  golds.add(new Gold(int(random(width)), int(random(150, height)), 2));
-  golds.add(new Gold(int(random(width)), int(random(150, height)), 3));
-  golds.add(new Gold(int(random(width)), int(random(150, height)), 4));
+  golds.add(new Gold(int(random(width)), int(random(300, height)), 0));
+  golds.add(new Gold(int(random(width)), int(random(300, height)), 1));
+  golds.add(new Gold(int(random(width)), int(random(300, height)), 2));
+  golds.add(new Gold(int(random(width)), int(random(300, height)), 3));
+  golds.add(new Gold(int(random(width)), int(random(300, height)), 4));
   
 }
 
@@ -49,11 +47,10 @@ void draw() {
         Stone sto = stones.get(i);
         Gold gol = golds.get(j);
       
-      //If intersecting > run regen function, which adds new random coordinates.
-        if (overlap(sto.x, sto.y, gol.x, gol.y, sto.radius, gol.radius)) {
+        //While 2 different minerals intersects > run regen() function, which adds new random coordinates.
+        while (overlap(sto.x, sto.y, gol.x, gol.y, sto.radius, gol.radius)) {
           regen();
-        } else if (overlap(gol.x, gol.y, sto.x, sto.y, gol.radius, sto.radius)) {
-          regen();
+          break;
         }
       }
     }
@@ -63,7 +60,7 @@ void draw() {
   }
   
   //If the user restarts the program by pressing 'q' > run setup to get new specific objects.
-  if (player.restart) {
+  if (player.restart && stones.size() + golds.size() == 0) {
     setup();
   }
   

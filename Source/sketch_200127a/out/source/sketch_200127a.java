@@ -18,15 +18,13 @@ public class sketch_200127a extends PApplet {
 ArrayList<Stone> stones = new ArrayList<Stone>(5);
 ArrayList<Gold> golds = new ArrayList<Gold>(5);
 
-
-
 //Declare a Player object.
 Player player = new Player(300,50);
 
 //Declare a Score object.
 Score score = new Score(10, 10);
 
-PImage back;
+PImage bgimage;
 boolean setupphase = true;
 
 //Sets program screensize to 600x600 px.
@@ -36,8 +34,8 @@ public void settings() {
 
 //Runs setup on the program. Loading and setting background image. Adds the specific Stone and Gold objects to the ArrayList.
 public void setup() {
-  back = loadImage("../sprites/soil.png");
-  background(back);
+  bgimage = loadImage("../sprites/soil.jpg");
+  background(bgimage);
   //background(#bd7443); //Dummy test
 
   //Adds minerals to ArrayList
@@ -47,11 +45,11 @@ public void setup() {
   stones.add(new Stone(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), 3));
   stones.add(new Stone(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), 4));
   
-  golds.add(new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), 0));
-  golds.add(new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), 1));
-  golds.add(new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), 2));
-  golds.add(new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), 3));
-  golds.add(new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), 4));
+  golds.add(new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(300, height)), 0));
+  golds.add(new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(300, height)), 1));
+  golds.add(new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(300, height)), 2));
+  golds.add(new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(300, height)), 3));
+  golds.add(new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(300, height)), 4));
   
 }
 
@@ -65,11 +63,10 @@ public void draw() {
         Stone sto = stones.get(i);
         Gold gol = golds.get(j);
       
-      //If intersecting > run regen function, which adds new random coordinates.
-        if (overlap(sto.x, sto.y, gol.x, gol.y, sto.radius, gol.radius)) {
+        //While 2 different minerals intersects > run regen() function, which adds new random coordinates.
+        while (overlap(sto.x, sto.y, gol.x, gol.y, sto.radius, gol.radius)) {
           regen();
-        } else if (overlap(gol.x, gol.y, sto.x, sto.y, gol.radius, sto.radius)) {
-          regen();
+          break;
         }
       }
     }
@@ -79,14 +76,13 @@ public void draw() {
   }
   
   //If the user restarts the program by pressing 'q' > run setup to get new specific objects.
-  if (player.restart) {
+  if (player.restart && stones.size() + golds.size() == 0) {
     setup();
   }
   
   //Game loop;
   //1. Set background to bgimage
-  background(back);
-  //background(#bd7443);
+  background(bgimage);
   
   //2. Invoke Player basic methods for rendering and moving.
   player.display();
@@ -100,14 +96,14 @@ public void draw() {
   for (int i = 0; i < stones.size(); i++) {
     Stone sto = stones.get(i);
     sto.display();
-    player.grap(sto.mineralCollision(player.x2, player.y2)[0],sto.mineralCollision(player.x2, player.y2)[1]); 
-    //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
+    player.grap(sto.mineralCollision(player.x2, player.y2)[0],sto.mineralCollision(player.x2, player.y2)[1]); //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
+    
   }
   for (int j = 0; j < golds.size(); j++) {
     Gold gol = golds.get(j);
     gol.display();
-    player.grap(gol.mineralCollision(player.x2, player.y2)[0], gol.mineralCollision(player.x2, player.y2)[1]);
-    //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
+    player.grap(gol.mineralCollision(player.x2, player.y2)[0], gol.mineralCollision(player.x2, player.y2)[1]); //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
+    
   }  
     
   //Iterate over all Stone and Gold objects to check if they should be removed from ArrayList, because they were caught.
@@ -137,25 +133,13 @@ public void draw() {
     
 }
 
-//Function for replacing Stone and Gold obejcts.
+//Function for replacing Stone and Gold obejcts. Using ArrayList.set instead of ArrayList.add to replace existing ArrayList values.
 public void regen() {
-  /**
-  for (int i = 0; i < stones.size(); i++) {
-    stones.set(new Stone(int(random(width)), int(random(150, height)), i));
-  }
-  */
-
   stones.set(0, new Stone(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), 0));
   stones.set(1, new Stone(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), 1));
   stones.set(2, new Stone(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), 2));
   stones.set(3, new Stone(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), 3));
   stones.set(4, new Stone(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), 4));
-  
-  /**
-  for (int j = 0; j < golds.size(); j++) {
-    golds.set(new Gold(int(random(width)), int(random(150, height)), j));
-  }
-  */
 
   golds.set(0, new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), 0));
   golds.set(1, new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), 1));
@@ -205,11 +189,13 @@ class Mineral {
    caught = false;
  }
  
+ //Method for displaying the object.
  public void display() {
    imageMode(CENTER);
    image(sprite, x, y, radius, radius);
  }
  
+ //Method for when the Player intersects with a Mineral object creates an array with the specific objects index number and type.
  public int[] mineralCollision(float a, float b) {
    int[] mineralCollision = new int[2];
    if (dist(a, b, x, y) < radius) {
@@ -222,37 +208,44 @@ class Mineral {
     return mineralCollision;
   }
 
+  //Method for changing a variable for determining if the object is caught and pulled back.
   public boolean hasCaught() {
     return caught = true;
   }
 }
 
+//New type of Mineral; Gold. Extends the Mineral class meaning it has all of the same methods and variables as Mineral.
 class Gold extends Mineral {
   
+  //Load sprite image file.
   PImage g_sprite = loadImage("../sprites/gold.png");
   
+  //Constructor changes a few variables.
   Gold(int xpos, int ypos, int numberInArray) {
     super(xpos, ypos, numberInArray);
     x = xpos;
     y = ypos;
     worth = 4;
-    radius = PApplet.parseInt(random(10, 50));
+    radius = PApplet.parseInt(random(10, 40));
     weight = radius*10;
     sprite = g_sprite;
     type = 1;
   }
 }
 
+//New type of Mineral; Stone. Extends the Mineral class meaning it has all of the same methods and variables as Mineral.
 class Stone extends Mineral {
   
+  //Load sprite image file.
   PImage r_sprite = loadImage("../sprites/rock.png");
   
+  //Constructor changes a few variables.
   Stone(int xpos, int ypos, int numberInArray) {
     super(xpos, ypos, numberInArray);
     x = xpos;
     y = ypos;
     worth = 1;
-    radius = PApplet.parseInt(random(10, 50));
+    radius = PApplet.parseInt(random(25, 65));
     weight = radius*3;
     sprite = r_sprite;
     type = 2;
@@ -283,7 +276,7 @@ class Player {
   public void display() {
     line(x1, y1, x2, y2);
     ellipseMode(CENTER);
-    fill(0);
+    fill(0xffb6b6b6);
     circle(x2, y2, r);
   }
   

@@ -10,7 +10,7 @@ class Mineral {
   int type;
   boolean caught;
   
- //Constructor sets start values for position,  
+ //Constructor sets start values for position, dimensions, number and if caught. 
  Mineral(int xpos, int ypos, int numberInArray) {
    x = xpos;
    y = ypos;
@@ -77,7 +77,7 @@ class Stone extends Mineral {
     x = xpos;
     y = ypos;
     worth = 1;
-    radius = int(random(15, 65));
+    radius = int(random(25, 65));
     weight = radius*3;
     sprite = r_sprite;
     type = 2;
