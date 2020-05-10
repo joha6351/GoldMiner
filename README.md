@@ -11,10 +11,5 @@ Playerklasse, mineralklasse og en score klasse indlæses. Deriblandt sprites til
 
 Når der ikke er flere mineraler ryddes billedet og score bliver fremvist.
 
-## Flowchart
-![alt text](https://github.com/joha6351/GoldMiner/blob/master/Flowchart%20-%20Gold%20Miner.svg "Flowchart")
-Alternativt findes [her](https://joha6351.github.io/)
-
-#### Mangler
-- Score klasse
-- Lave endingscreen, sammenhøren med Score
+##Bugs
+- IndexOutOfBounds when picking up the last Mineral in ArrayList
