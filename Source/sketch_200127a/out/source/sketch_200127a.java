@@ -25,7 +25,7 @@ Player player = new Player(300,50);
 Score score = new Score(10, 10);
 
 PImage bgimage;
-boolean setupphase = true;
+boolean setupphase;
 
 //Sets program windowsize to 600x600 px.
 public void settings() {
@@ -36,6 +36,8 @@ public void settings() {
 public void setup() {
   bgimage = loadImage("../sprites/soil.jpg");
   background(bgimage);
+
+  setupphase = true;
 
   //Adds minerals to ArrayList
   stones.add(new Stone(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, 350)), 0));
@@ -91,22 +93,19 @@ public void draw() {
   //3. Invoke Score methods
   score.display();
 
-  //Iterate over all the Stone and Gold objects to invoke rendering methods and invoking Player grap method for all Stone and Gold objects.
+  //4. Iterate over all the Stone and Gold objects to invoke rendering methods and invoking Player grap method for all Stone and Gold objects.
   for (int i = 0; i < stones.size(); i++) {
-    Stone sto = stones.get(i);
-    sto.display();
-    player.grap(sto.mineralCollision(player.x2, player.y2)[0],sto.mineralCollision(player.x2, player.y2)[1]); //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
-    
-  }
-  for (int j = 0; j < golds.size(); j++) {
-    Gold gol = golds.get(j);
-    gol.display();
-    player.grap(gol.mineralCollision(player.x2, player.y2)[0], gol.mineralCollision(player.x2, player.y2)[1]); //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
-    
+    for (int j = 0; j < golds.size(); j++) {
+      Stone sto = stones.get(i);
+      sto.display();
+      player.grap(sto.mineralCollision(player.x2, player.y2)[0],sto.mineralCollision(player.x2, player.y2)[1]); //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
+      Gold gol = golds.get(j);
+      gol.display();
+      player.grap(gol.mineralCollision(player.x2, player.y2)[0], gol.mineralCollision(player.x2, player.y2)[1]); //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
+    }
   }  
     
-  //Iterate over all Stone and Gold objects to check if they should be removed from ArrayList, because they were caught.
-  /**
+  //5. Iterate over all Stone and Gold objects to check if they should be removed from ArrayList, because they were caught.
   for (int i = stones.size()-1; i >= 0; i--) {
     for (int j = golds.size()-1; j >= 0; j--) {
       Stone sto = stones.get(i);
@@ -118,23 +117,9 @@ public void draw() {
         golds.remove(j);
       }
     }
-  }*/
-
-  for (int i = stones.size()-1; i >= 0; i--) {
-    Stone sto = stones.get(i);
-      if (sto.caught) {
-        stones.remove(i);
-      }
   }
 
-  for (int j = golds.size()-1; j >= 0; j--) {
-    Gold gol = golds.get(j);
-      if (gol.caught) {
-        golds.remove(j);
-      }
-  }
-
-
+  //Ending loop;
   //When the user has caught all minerals > show ending screen; final score and instruction for restarting.
   if (stones.size()+golds.size() == 0) {
     background(0);
@@ -145,7 +130,6 @@ public void draw() {
     textSize(26);
     text("Press 'q' to restart", width/2, height/2+36);
   }
-    
 }
 
 //Function for replacing Stone and Gold obejcts. Using ArrayList.set instead of ArrayList.add to replace existing ArrayList values.
@@ -326,8 +310,7 @@ class Player {
         }
         if (sto.y < 70) { //When Stone object is pulled adequately back; inform user of which Stone has been caught, change caught variable to 'true' to remove from the ArrayList in main program, add the money, reset Player to start values.
           println("Stone; " + sto.n + " got caught!");
-          stones.remove(mineralCollisionNumber);
-          //sto.hasCaught();
+          sto.hasCaught();
           score.money += score.moneyAdd;
           //Reset of Player
           pReset();
@@ -444,7 +427,6 @@ class Score {
     }
     return moneyAdd;
   }
-
 }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "sketch_200127a" };

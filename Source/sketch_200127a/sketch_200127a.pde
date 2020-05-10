@@ -9,7 +9,7 @@ Player player = new Player(300,50);
 Score score = new Score(10, 10);
 
 PImage bgimage;
-boolean setupphase = true;
+boolean setupphase;
 
 //Sets program windowsize to 600x600 px.
 void settings() {
@@ -20,6 +20,8 @@ void settings() {
 void setup() {
   bgimage = loadImage("../sprites/soil.jpg");
   background(bgimage);
+
+  setupphase = true;
 
   //Adds minerals to ArrayList
   stones.add(new Stone(int(random(width)), int(random(150, 350)), 0));
@@ -75,21 +77,19 @@ void draw() {
   //3. Invoke Score methods
   score.display();
 
-  //Iterate over all the Stone and Gold objects to invoke rendering methods and invoking Player grap method for all Stone and Gold objects.
+  //4. Iterate over all the Stone and Gold objects to invoke rendering methods and invoking Player grap method for all Stone and Gold objects.
   for (int i = 0; i < stones.size(); i++) {
-    Stone sto = stones.get(i);
-    sto.display();
-    player.grap(sto.mineralCollision(player.x2, player.y2)[0],sto.mineralCollision(player.x2, player.y2)[1]); //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
-    
-  }
-  for (int j = 0; j < golds.size(); j++) {
-    Gold gol = golds.get(j);
-    gol.display();
-    player.grap(gol.mineralCollision(player.x2, player.y2)[0], gol.mineralCollision(player.x2, player.y2)[1]); //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
-    
+    for (int j = 0; j < golds.size(); j++) {
+      Stone sto = stones.get(i);
+      sto.display();
+      player.grap(sto.mineralCollision(player.x2, player.y2)[0],sto.mineralCollision(player.x2, player.y2)[1]); //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
+      Gold gol = golds.get(j);
+      gol.display();
+      player.grap(gol.mineralCollision(player.x2, player.y2)[0], gol.mineralCollision(player.x2, player.y2)[1]); //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
+    }
   }  
     
-  //Iterate over all Stone and Gold objects to check if they should be removed from ArrayList, because they were caught.
+  //5. Iterate over all Stone and Gold objects to check if they should be removed from ArrayList, because they were caught.
   for (int i = stones.size()-1; i >= 0; i--) {
     for (int j = golds.size()-1; j >= 0; j--) {
       Stone sto = stones.get(i);
@@ -103,6 +103,7 @@ void draw() {
     }
   }
 
+  //Ending loop;
   //When the user has caught all minerals > show ending screen; final score and instruction for restarting.
   if (stones.size()+golds.size() == 0) {
     background(0);
