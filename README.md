@@ -11,5 +11,5 @@ Playerklasse, mineralklasse og en score klasse indlæses. Deriblandt sprites til
 
 Når der ikke er flere mineraler ryddes billedet og score bliver fremvist.
 
-##Bugs
+## Bugs
 - IndexOutOfBounds when picking up the last Mineral in ArrayList
