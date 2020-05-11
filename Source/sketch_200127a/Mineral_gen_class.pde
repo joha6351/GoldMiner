@@ -33,10 +33,10 @@ class Mineral {
    if (dist(a, b, x, y) < radius) {
      mineralCollision[0] = n;
      mineralCollision[1] = type;
-    } else {
+    } /* else {
       mineralCollision[0] = 100;
       mineralCollision[1] = 100;
-    }
+    } */
     return mineralCollision;
   }
 

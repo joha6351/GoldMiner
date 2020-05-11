@@ -34,6 +34,7 @@ public void settings() {
 
 //Runs setup on the program. Loading and setting background image. Adds the specific Stone and Gold objects to the ArrayList.
 public void setup() {
+  frameRate(60);
   bgimage = loadImage("../sprites/soil.jpg");
   background(bgimage);
 
@@ -59,8 +60,8 @@ public void draw() {
   
   //Setupphase loop; places the mineral object until no minerals intersect.
   while (setupphase) {
-    for (int i = 0; i < stones.size(); i++) {
-      for (int j = 0; j < golds.size(); j++) {
+    for (int i = stones.size()-1; i >= 0; i--) {
+      for (int j = golds.size()-1; j >= 0; j--) {
         Stone sto = stones.get(i);
         Gold gol = golds.get(j);
       
@@ -94,28 +95,30 @@ public void draw() {
   score.display();
 
   //4. Iterate over all the Stone and Gold objects to invoke rendering methods and invoking Player grap method for all Stone and Gold objects.
-  for (int i = 0; i < stones.size(); i++) {
-    for (int j = 0; j < golds.size(); j++) {
-      Stone sto = stones.get(i);
-      sto.display();
-      player.grap(sto.mineralCollision(player.x2, player.y2)[0],sto.mineralCollision(player.x2, player.y2)[1]); //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
-      Gold gol = golds.get(j);
-      gol.display();
-      player.grap(gol.mineralCollision(player.x2, player.y2)[0], gol.mineralCollision(player.x2, player.y2)[1]); //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
-    }
-  }  
+  for (int i = stones.size()-1; i >= 0; i--) {
+    Stone sto = stones.get(i);
+    sto.display();
+     player.grap(sto.mineralCollision(player.x2, player.y2)[0],sto.mineralCollision(player.x2, player.y2)[1]); //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
+  } 
+
+  for (int j = golds.size()-1; j >= 0; j--) {
+    Gold gol = golds.get(j);
+    gol.display();
+    player.grap(gol.mineralCollision(player.x2, player.y2)[0], gol.mineralCollision(player.x2, player.y2)[1]); //mineralCollisonNumber[0] = number in array, mineralCollisonNumber[1] = type
+  }
     
   //5. Iterate over all Stone and Gold objects to check if they should be removed from ArrayList, because they were caught.
   for (int i = stones.size()-1; i >= 0; i--) {
-    for (int j = golds.size()-1; j >= 0; j--) {
-      Stone sto = stones.get(i);
-      if (sto.caught) {
-        stones.remove(i);
-      }
-      Gold gol = golds.get(j);
-      if (gol.caught) {
-        golds.remove(j);
-      }
+    Stone sto = stones.get(i);
+    if (sto.caught) {
+       stones.remove(i);
+    }
+  }
+
+  for (int j = golds.size()-1; j >= 0; j--) {
+    Gold gol = golds.get(j);
+    if (gol.caught) {
+      golds.remove(j);
     }
   }
 
@@ -134,14 +137,17 @@ public void draw() {
 
 //Function for replacing Stone and Gold obejcts. Using ArrayList.set instead of ArrayList.add to replace existing ArrayList values.
 public void regen() {
-  for (int i = 0; i < stones.size(); i++) {
-    Stone sto = stones.get(i);
-    stones.set(i, new Stone(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), i));
-  }
-  for (int j = 0; j < golds.size(); j++) {
-    Gold gol = golds.get(j);
-    golds.set(j, new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, height)), j));
-  }
+  stones.set(0, new Stone(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, 350)), 0));
+  stones.set(1, new Stone(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, 350)), 1));
+  stones.set(2, new Stone(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, 350)), 2));
+  stones.set(3, new Stone(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, 350)), 3));
+  stones.set(4, new Stone(PApplet.parseInt(random(width)), PApplet.parseInt(random(150, 350)), 4));
+  
+  golds.set(0, new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(300, height)), 0));
+  golds.set(1, new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(300, height)), 1));
+  golds.set(2, new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(300, height)), 2));
+  golds.set(3, new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(300, height)), 3));
+  golds.set(4, new Gold(PApplet.parseInt(random(width)), PApplet.parseInt(random(300, height)), 4));
 }
 
 //Function for checking if intersectiong between 2 objects.
@@ -197,10 +203,10 @@ class Mineral {
    if (dist(a, b, x, y) < radius) {
      mineralCollision[0] = n;
      mineralCollision[1] = type;
-    } else {
+    } /* else {
       mineralCollision[0] = 100;
       mineralCollision[1] = 100;
-    }
+    } */
     return mineralCollision;
   }
 
@@ -415,13 +421,13 @@ class Score {
   //Method for calculating the amount of money to be added to money based on the specific caught objects properties.
   public int calcMoney(int mineralCollisionNumber, int mineralType) {
     if (mineralType == 2) {
-      for (int i = 0; i < stones.size(); i++) {
-        Stone sto = stones.get(mineralCollisionNumber);
+      for (int i = stones.size()-1; i >= 0; i--) {
+        Stone sto = stones.get(i);
         moneyAdd = PApplet.parseInt(sto.worth*sto.weight);
       }
     } else if (mineralType == 1) {
-      for (int i = 0; i < golds.size(); i++) {
-        Gold gol = golds.get(mineralCollisionNumber);
+      for (int i = golds.size()-1; i >= 0; i--) {
+        Gold gol = golds.get(i);
         moneyAdd = PApplet.parseInt(gol.worth*gol.weight);
       }
     }

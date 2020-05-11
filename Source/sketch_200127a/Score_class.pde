@@ -22,13 +22,13 @@ class Score {
   //Method for calculating the amount of money to be added to money based on the specific caught objects properties.
   int calcMoney(int mineralCollisionNumber, int mineralType) {
     if (mineralType == 2) {
-      for (int i = 0; i < stones.size(); i++) {
-        Stone sto = stones.get(mineralCollisionNumber);
+      for (int i = stones.size()-1; i >= 0; i--) {
+        Stone sto = stones.get(i);
         moneyAdd = int(sto.worth*sto.weight);
       }
     } else if (mineralType == 1) {
-      for (int i = 0; i < golds.size(); i++) {
-        Gold gol = golds.get(mineralCollisionNumber);
+      for (int i = golds.size()-1; i >= 0; i--) {
+        Gold gol = golds.get(i);
         moneyAdd = int(gol.worth*gol.weight);
       }
     }
