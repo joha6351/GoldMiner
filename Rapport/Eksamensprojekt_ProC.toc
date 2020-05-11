@@ -1,0 +1,10 @@
+\babel@toc {danish}{}
+\contentsline {section}{\numberline {1}Problemformulering}{3}%
+\contentsline {section}{\numberline {2}Funktionsbeskrivelse}{3}%
+\contentsline {section}{\numberline {3}Dokumentation}{3}%
+\contentsline {subsection}{\numberline {3.1}Spilletshistorie}{3}%
+\contentsline {subsection}{\numberline {3.2}Detaljeret beskrivelse af Mineral klassen og inheritance konceptet og brugen}{4}%
+\contentsline {subsection}{\numberline {3.3}Funktion og metode oversigt for GoldMiner}{8}%
+\contentsline {section}{\numberline {4}Test af spillet}{12}%
+\contentsline {section}{\numberline {5}Konklusion}{14}%
+\contentsline {section}{\numberline {6}Bilag - Flowcharts og source kode}{15}%
